@@ -23,6 +23,21 @@ export function QuizResult({ profile, onRestart }: QuizResultProps) {
     };
   }, []);
 
+  // Função para trackear o InitiateCheckout
+  const handleCheckoutClick = () => {
+    // Disparar evento de InitiateCheckout para o Facebook Pixel
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout', {
+        content_name: 'Quaresma São Miguel Arcanjo',
+        content_category: 'Produto Espiritual',
+        value: 97.00,
+        currency: 'BRL'
+      });
+    }
+    
+    // Abrir o link de checkout
+    window.open('https://checkout.vendeagora.com/api/public/shopify?product=917541223684&store=9175', '_blank');
+  };
   return (
     <div 
       className="min-h-screen flex items-center justify-center px-4"
@@ -65,7 +80,7 @@ export function QuizResult({ profile, onRestart }: QuizResultProps) {
         {/* Botão de Ação */}
         <div className="text-center">
           <button
-            onClick={() => window.open('https://checkout.vendeagora.com/api/public/shopify?product=917541223684&store=9175', '_blank')}
+            onClick={handleCheckoutClick}
             className="bg-[#B8472F] hover:bg-[#A03B26] text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
           >
             Adquirir meu presente
